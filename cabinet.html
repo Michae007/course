@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Личный кабинет | Курсы Olga Carre</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" href="/favicon.ico">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+
+  <style>
+    body{padding-top:80px}
+    .cabinet{
+      padding:50px 0 80px;
+      min-height:100vh;
+    }
+    .cab-header{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:20px;
+      flex-wrap:wrap;
+      margin-bottom:40px;
+      padding-bottom:30px;
+      border-bottom:1px solid var(--line);
+    }
+    .cab-header h1{font-size:2rem}
+    .cab-header p{font-size:.95rem;margin-top:6px}
+    .cab-user{
+      display:flex;
+      align-items:center;
+      gap:14px;
+      padding:14px 18px;
+      background:var(--navy-2);
+      border:1px solid var(--line);
+      border-radius:16px;
+    }
+    .cab-avatar{
+      width:44px;height:44px;
+      border-radius:50%;
+      background:linear-gradient(135deg,var(--gold),var(--gold-2));
+      display:grid;place-items:center;
+      color:var(--navy);
+      font-weight:800;
+      font-size:1.1rem;
+    }
+    .cab-user b{display:block;font-size:.95rem}
+    .cab-user small{color:var(--muted);font-size:.82rem}
+
+    .cab-layout{
+      display:grid;
+      grid-template-columns:300px 1fr;
+      gap:30px;
+      align-items:start;
+    }
+
+    .lessons-nav{
+      background:var(--navy-2);
+      border:1px solid var(--line);
+      border-radius:20px;
+      padding:20px;
+      position:sticky;
+      top:100px;
+    }
+    .lessons-nav h3{
+      font-size:.82rem;
+      text-transform:uppercase;
+      letter-spacing:.12em;
+      color:var(--muted);
+      margin-bottom:16px;
+      font-weight:800;
+    }
+    .lessons-nav ul{list-style:none}
+    .lesson-link{
+      display:flex;
+      gap:12px;
+      align-items:flex-start;
+      padding:14px;
+      border-radius:12px;
+      cursor:pointer;
+      transition:.2s;
+      margin-bottom:6px;
+      color:var(--muted);
+      font-size:.92rem;
+      line-height:1.4;
+    }
+    .lesson-link:hover{background:rgba(255,255,255,.04);color:var(--white)}
+    .lesson-link.active{
+      background:linear-gradient(135deg,rgba(232,182,76,.15),rgba(232,182,76,.05));
+      color:var(--white);
+      border-left:3px solid var(--gold);
+    }
+    .lesson-num{
+      flex-shrink:0;
+      width:26px;height:26px;
+      border-radius:50%;
+      background:rgba(255,255,255,.08);
+      display:grid;place-items:center;
+      font-size:.78rem;
+      font-weight:800;
+    }
+    .lesson-link.active .lesson-num{
+      background:var(--gold);
+      color:var(--navy);
+    }
+    .lesson-link.done .lesson-num{
+      background:#22c55e;
+      color:#fff;
+    }
+
+    .lesson-content{
+      background:var(--navy-2);
+      border:1px solid var(--line);
+      border-radius:20px;
+      padding:38px;
+    }
+    .lesson-content h2{
+      font-size:1.8rem;
+      margin-bottom:20px;
+    }
+    .lesson-meta{
+      display:flex;
+      gap:20px;
+      flex-wrap:wrap;
+      color:var(--muted);
+      font-size:.9rem;
+      margin-bottom:26px;
+      padding-bottom:26px;
+      border-bottom:1px solid var(--line);
+    }
+    .lesson-meta span{display:flex;gap:6px;align-items:center}
+
+    .video-wrap{
+      aspect-ratio:16/9;
+      background:#000;
+      border-radius:16px;
+      overflow:hidden;
+      margin-bottom:30px;
+      position:relative;
+    }
+    .video-wrap iframe,
+    .video-wrap video{
+      width:100%;height:100%;border:0;display:block;
+    }
+    .video-placeholder{
+      position:absolute;
+      inset:0;
+      display:grid;
+      place-items:center;
+      background:linear-gradient(135deg,#0f172a,#1e293b);
+      color:var(--muted);
+      font-size:.95rem;
+      text-align:center;
+      padding:20px;
+    }
+    .video-placeholder .icon{
+      font-size:3rem;
+      margin-bottom:14px;
+      display:block;
+    }
+
+    .lesson-text{margin-bottom:30px}
+    .lesson-text h3{
+      font-size:1.2rem;
+      margin:24px 0 12px;
+      color:var(--white);
+    }
+    .lesson-text p{
+      color:#d1d5db;
+      margin-bottom:14px;
+      font-size:.98rem;
+    }
+    .lesson-text ul{
+      list-style:none;
+      margin:14px 0;
+    }
+    .lesson-text li{
+      padding:8px 0 8px 26px;
+      position:relative;
+      color:#d1d5db;
+      font-size:.96rem;
+    }
+    .lesson-text li::before{
+      content:"▸";
+      position:absolute;
+      left:0;
+      color:var(--gold);
+      font-weight:800;
+    }
+
+    .lesson-actions{
+      display:flex;
+      justify-content:space-between;
+      gap:14px;
+      padding-top:26px;
+      border-top:1px solid var(--line);
+      flex-wrap:wrap;
+    }
+
+    .progress-bar{
+      height:6px;
+      background:rgba(255,255,255,.06);
+      border-radius:99px;
+      overflow:hidden;
+      margin:10px 0 26px;
+    }
+    .progress-bar span{
+      display:block;
+      height:100%;
+      background:linear-gradient(90deg,var(--gold),#f5d377);
+      transition:.5s;
+    }
+
+    @media(max-width:900px){
+      body{padding-top:70px}
+      .cab-layout{grid-template-columns:1fr}
+      .lessons-nav{position:static}
+      .lesson-content{padding:24px}
+      .cab-header{flex-direction:column;align-items:flex-start}
+    }
+  </style>
+</head>
+<body>
+
+<header class="header">
+  <div class="container header-inner">
+    <a class="logo" href="index.html">
+      <div class="logo-mark">✂</div>
+      Olga <span>Carre</span> · Курсы
+    </a>
+    <div class="nav-cta">
+      <button class="btn btn-outline" id="logoutBtn" style="padding:11px 20px;font-size:.9rem">Выйти</button>
+    </div>
+  </div>
+</header>
+
+<main class="cabinet">
+  <div class="container">
+    <div class="cab-header">
+      <div>
+        <h1>Ваш курс: <span id="courseName" style="color:var(--gold)">—</span></h1>
+        <p>Проходите уроки в удобном темпе. Прогресс сохраняется автоматически.</p>
+      </div>
+      <div class="cab-user">
+        <div class="cab-avatar" id="userAvatar">?</div>
+        <div>
+          <b id="userName">—</b>
+          <small id="userEmail">—</small>
+        </div>
+      </div>
+    </div>
+
+    <div class="cab-layout">
+      <aside class="lessons-nav">
+        <h3>Уроки курса</h3>
+        <ul id="lessonsList"></ul>
+        <div class="progress-bar"><span id="progressFill" style="width:0%"></span></div>
+        <small style="color:var(--muted);font-size:.82rem" id="progressText">Пройдено 0 из 0</small>
+      </aside>
+
+      <article class="lesson-content" id="lessonContent">
+        <!-- Содержимое загружается скриптом -->
+      </article>
+    </div>
+  </div>
+</main>
+
+<script>
+/* =========================================================
+   ЛИЧНЫЙ КАБИНЕТ — загружаем уроки из lessons.json
+   ========================================================= */
+
+// 1) Проверка авторизации
+const user = JSON.parse(localStorage.getItem('course_user') || 'null');
+if (!user || !user.email) {
+  location.href = 'login.html';
+}
+
+// 2) Данные пользователя в шапку
+document.getElementById('userName').textContent = user.name || 'Ученик';
+document.getElementById('userEmail').textContent = user.email;
+document.getElementById('userAvatar').textContent = (user.name || 'У').charAt(0).toUpperCase();
+
+// 3) Названия курсов
+const COURSE_TITLES = {
+  korean: 'Корейские стрижки',
+  english: 'Английские стрижки',
+  color: 'Балаяж и шатуш',
+  first: 'Первая стрижка',
+  pro: 'Профессиональный курс'
+};
+document.getElementById('courseName').textContent = COURSE_TITLES[user.course] || 'Ваш курс';
+
+// 4) Загружаем уроки
+let lessons = [];
+let currentIndex = 0;
+
+async function loadLessons() {
+  try {
+    const resp = await fetch('lessons.json', { cache: 'no-store' });
+    lessons = await resp.json();
+    renderLessonsNav();
+    renderLesson(0);
+  } catch(e) {
+    document.getElementById('lessonContent').innerHTML =
+      '<h2>Ошибка загрузки</h2><p>Не удалось загрузить уроки. Обновите страницу.</p>';
+  }
+}
+
+// Прогресс
+function getProgress() {
+  return JSON.parse(localStorage.getItem('progress_' + user.email) || '[]');
+}
+function markDone(idx) {
+  const p = getProgress();
+  if (!p.includes(idx)) {
+    p.push(idx);
+    localStorage.setItem('progress_' + user.email, JSON.stringify(p));
+  }
+  renderLessonsNav();
+}
+
+// Меню уроков
+function renderLessonsNav() {
+  const done = getProgress();
+  const list = document.getElementById('lessonsList');
+  list.innerHTML = lessons.map((lesson, i) => `
+    <li>
+      <div class="lesson-link ${i === currentIndex ? 'active' : ''} ${done.includes(i) ? 'done' : ''}" data-index="${i}">
+        <div class="lesson-num">${done.includes(i) ? '✓' : i + 1}</div>
+        <div>${lesson.title}</div>
+      </div>
+    </li>
+  `).join('');
+
+  // Клик по уроку
+  list.querySelectorAll('.lesson-link').forEach(link => {
+    link.addEventListener('click', () => {
+      currentIndex = parseInt(link.dataset.index);
+      renderLessonsNav();
+      renderLesson(currentIndex);
+    });
+  });
+
+  // Прогресс
+  const percent = lessons.length ? Math.round((done.length / lessons.length) * 100) : 0;
+  document.getElementById('progressFill').style.width = percent + '%';
+  document.getElementById('progressText').textContent = `Пройдено ${done.length} из ${lessons.length}`;
+}
+
+// Отображение урока
+function renderLesson(idx) {
+  const lesson = lessons[idx];
+  if (!lesson) return;
+
+  const done = getProgress().includes(idx);
+  const container = document.getElementById('lessonContent');
+
+  // Видео
+  let videoHtml = '';
+  if (lesson.videoType === 'youtube' && lesson.videoId) {
+    videoHtml = `<div class="video-wrap"><iframe src="https://www.youtube.com/embed/${lesson.videoId}" allowfullscreen loading="lazy" title="${lesson.title}"></iframe></div>`;
+  } else if (lesson.videoType === 'vk' && lesson.videoId) {
+    videoHtml = `<div class="video-wrap"><iframe src="${lesson.videoId}" allow="autoplay; encrypted-media; fullscreen; picture-in-picture" allowfullscreen loading="lazy"></iframe></div>`;
+  } else if (lesson.videoType === 'mp4' && lesson.videoUrl) {
+    videoHtml = `<div class="video-wrap"><video controls preload="metadata" poster="${lesson.poster || ''}"><source src="${lesson.videoUrl}" type="video/mp4"></video></div>`;
+  } else {
+    videoHtml = `<div class="video-wrap"><div class="video-placeholder"><div><span class="icon">🎥</span>Видео будет добавлено.<br><small>Укажите videoType и videoId в lessons.json</small></div></div></div>`;
+  }
+
+  // Теория
+  const theoryHtml = lesson.theory || '<p>Материал урока будет добавлен.</p>';
+
+  container.innerHTML = `
+    <h2>${lesson.title}</h2>
+    <div class="lesson-meta">
+      <span>📚 Урок ${idx + 1} из ${lessons.length}</span>
+      ${lesson.duration ? `<span>⏱ ${lesson.duration}</span>` : ''}
+      ${done ? '<span style="color:#22c55e">✓ Пройден</span>' : ''}
+    </div>
+    ${videoHtml}
+    <div class="lesson-text">${theoryHtml}</div>
+    <div class="lesson-actions">
+      <button class="btn btn-outline" id="prevBtn" ${idx === 0 ? 'disabled style="opacity:.4;cursor:not-allowed"' : ''}>← Предыдущий</button>
+      <button class="btn btn-primary" id="doneBtn">${done ? '✓ Урок пройден' : 'Отметить как пройденный'}</button>
+      <button class="btn btn-outline" id="nextBtn" ${idx === lessons.length - 1 ? 'disabled style="opacity:.4;cursor:not-allowed"' : ''}>Следующий →</button>
+    </div>
+  `;
+
+  // Кнопки
+  document.getElementById('prevBtn')?.addEventListener('click', () => {
+    if (idx > 0) { currentIndex = idx - 1; renderLessonsNav(); renderLesson(currentIndex); }
+  });
+  document.getElementById('nextBtn')?.addEventListener('click', () => {
+    if (idx < lessons.length - 1) { currentIndex = idx + 1; renderLessonsNav(); renderLesson(currentIndex); }
+  });
+  document.getElementById('doneBtn')?.addEventListener('click', () => {
+    markDone(idx);
+    renderLesson(idx);
+  });
+}
+
+// Выход
+document.getElementById('logoutBtn').addEventListener('click', () => {
+  localStorage.removeItem('course_user');
+  location.href = 'index.html';
+});
+
+loadLessons();
+</script>
+</body>
+</html>
