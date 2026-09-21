@@ -1,0 +1,16 @@
+{
+  "anna@example.com": {
+    "password": "пока пусто",
+    "paid": true,
+    "course": "korean",
+    "name": "Анна Иванова",
+    "expires": "2026-12-31"
+  },
+  "elena@example.com": {
+    "password": "пока пусто",
+    "paid": true,
+    "course": "color",
+    "name": "Елена Петрова",
+    "expires": "2026-12-31"
+  }
+}
