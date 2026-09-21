@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Вход в личный кабинет | Курсы Olga Carre</title>
+  <meta name="description" content="Войдите в личный кабинет и получите доступ к урокам курса.">
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" href="/favicon.ico">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+
+  <style>
+    .auth-wrap{
+      min-height:100vh;
+      display:grid;
+      place-items:center;
+      padding:120px 20px 40px;
+      position:relative;
+      overflow:hidden;
+    }
+    .auth-wrap::before{
+      content:"";
+      position:absolute;
+      top:-20%;right:-15%;
+      width:600px;height:600px;
+      background:radial-gradient(circle,rgba(139,92,246,.15),transparent 70%);
+      border-radius:50%;
+    }
+    .auth-wrap::after{
+      content:"";
+      position:absolute;
+      bottom:-30%;left:-15%;
+      width:500px;height:500px;
+      background:radial-gradient(circle,rgba(232,182,76,.12),transparent 70%);
+      border-radius:50%;
+    }
+    .auth-card{
+      position:relative;
+      z-index:1;
+      width:100%;
+      max-width:460px;
+      padding:44px 40px;
+      background:var(--navy-2);
+      border:1px solid var(--line);
+      border-radius:24px;
+      box-shadow:0 30px 80px rgba(0,0,0,.4);
+    }
+    .auth-card h1{
+      font-size:1.9rem;
+      margin-bottom:10px;
+    }
+    .auth-card > p{
+      color:var(--muted);
+      margin-bottom:32px;
+      font-size:.95rem;
+    }
+    .auth-tabs{
+      display:flex;
+      gap:8px;
+      background:rgba(255,255,255,.04);
+      border-radius:14px;
+      padding:6px;
+      margin-bottom:30px;
+    }
+    .auth-tab{
+      flex:1;
+      padding:12px;
+      text-align:center;
+      font-weight:700;
+      font-size:.92rem;
+      border-radius:10px;
+      color:var(--muted);
+      transition:.25s;
+    }
+    .auth-tab.active{
+      background:var(--gold);
+      color:var(--navy);
+    }
+    .field{margin-bottom:18px}
+    .field label{
+      display:block;
+      font-size:.85rem;
+      font-weight:600;
+      margin-bottom:8px;
+      color:var(--muted);
+    }
+    .field input{
+      width:100%;
+      padding:15px 18px;
+      background:rgba(255,255,255,.04);
+      border:1px solid var(--line);
+      border-radius:12px;
+      color:var(--white);
+      font-family:inherit;
+      font-size:1rem;
+      transition:.25s;
+    }
+    .field input:focus{
+      outline:none;
+      border-color:var(--gold);
+      background:rgba(232,182,76,.06);
+    }
+    .auth-card .btn{width:100%;margin-top:8px}
+    .auth-footer{
+      text-align:center;
+      margin-top:24px;
+      font-size:.88rem;
+      color:var(--muted);
+    }
+    .auth-footer a{color:var(--gold);font-weight:700}
+    .message{
+      display:none;
+      padding:14px 18px;
+      border-radius:12px;
+      margin-bottom:20px;
+      font-size:.9rem;
+      font-weight:600;
+    }
+    .message.error{
+      display:block;
+      background:rgba(239,68,68,.1);
+      color:#fca5a5;
+      border:1px solid rgba(239,68,68,.25);
+    }
+    .message.success{
+      display:block;
+      background:rgba(34,197,94,.1);
+      color:#86efac;
+      border:1px solid rgba(34,197,94,.25);
+    }
+    .message.info{
+      display:block;
+      background:rgba(59,130,246,.1);
+      color:#93c5fd;
+      border:1px solid rgba(59,130,246,.25);
+    }
+    .back-link{
+      display:inline-block;
+      margin-bottom:20px;
+      color:var(--muted);
+      font-size:.88rem;
+    }
+    .back-link:hover{color:var(--gold)}
+  </style>
+</head>
+<body>
+
+<header class="header">
+  <div class="container header-inner">
+    <a class="logo" href="index.html">
+      <div class="logo-mark">✂</div>
+      Olga <span>Carre</span> · Курсы
+    </a>
+    <div class="nav-cta">
+      <a class="btn btn-outline" href="index.html" style="padding:11px 20px;font-size:.9rem">← На главную</a>
+    </div>
+  </div>
+</header>
+
+<main class="auth-wrap">
+  <div class="auth-card">
+    <a class="back-link" href="index.html">← Вернуться к курсам</a>
+    <h1 id="authTitle">Вход в кабинет</h1>
+    <p id="authSubtitle">Введите email, который использовали при оплате, чтобы открыть доступ к урокам.</p>
+
+    <div class="auth-tabs">
+      <button class="auth-tab active" data-tab="login">Вход</button>
+      <button class="auth-tab" data-tab="register">Регистрация</button>
+    </div>
+
+    <div class="message" id="msg"></div>
+
+    <form id="authForm" autocomplete="on">
+      <div class="field">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" required placeholder="you@example.com" autocomplete="email">
+      </div>
+      <div class="field" id="passwordField">
+        <label for="password">Пароль</label>
+        <input type="password" id="password" name="password" required placeholder="••••••••" minlength="6" autocomplete="current-password">
+      </div>
+      <button type="submit" class="btn btn-primary" id="submitBtn">Войти в кабинет</button>
+    </form>
+
+    <div class="auth-footer">
+      Нет аккаунта? <a href="index.html#pricing">Выберите курс</a> и оплатите — доступ откроется автоматически.
+    </div>
+  </div>
+</main>
+
+<script>
+/* =========================================================
+   ПРОСТАЯ СИСТЕМА АВТОРИЗАЦИИ
+   ---------------------------------------------------------
+   Пользователи хранятся в users.json.
+   Формат:
+   {
+     "user@example.com": {
+       "password": "SHA-256 от пароля",
+       "paid": true,
+       "course": "korean",
+       "name": "Анна",
+       "expires": "2026-12-31"
+     }
+   }
+
+   ⚠️ Это простой вариант для старта. Для серьёзной безопасности
+   позже нужно перенести проверку на Cloudflare Worker.
+   ========================================================= */
+
+const USERS_URL = 'users.json';
+let currentTab = 'login';
+
+// SHA-256 хеш
+async function sha256(text) {
+  const buf = new TextEncoder().encode(text);
+  const hash = await crypto.subtle.digest('SHA-256', buf);
+  return Array.from(new Uint8Array(hash))
+    .map(b => b.toString(16).padStart(2, '0')).join('');
+}
+
+// Показать сообщение
+function showMessage(type, text) {
+  const el = document.getElementById('msg');
+  el.className = 'message ' + type;
+  el.textContent = text;
+  if (type === 'success') setTimeout(() => el.className = 'message', 3000);
+}
+
+// Переключение табов
+document.querySelectorAll('.auth-tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    currentTab = tab.dataset.tab;
+    document.querySelectorAll('.auth-tab').forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+    const title = document.getElementById('authTitle');
+    const sub = document.getElementById('authSubtitle');
+    const btn = document.getElementById('submitBtn');
+    if (currentTab === 'login') {
+      title.textContent = 'Вход в кабинет';
+      sub.textContent = 'Введите email, который использовали при оплате, чтобы открыть доступ к урокам.';
+      btn.textContent = 'Войти в кабинет';
+    } else {
+      title.textContent = 'Регистрация';
+      sub.textContent = 'Создайте пароль для доступа к вашему курсу. Email должен совпадать с тем, что вы указали при оплате.';
+      btn.textContent = 'Создать пароль и войти';
+    }
+    document.getElementById('msg').className = 'message';
+  });
+});
+
+// Отправка формы
+document.getElementById('authForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const email = document.getElementById('email').value.trim().toLowerCase();
+  const password = document.getElementById('password').value;
+  const submitBtn = document.getElementById('submitBtn');
+  submitBtn.disabled = true;
+  submitBtn.textContent = 'Проверяем...';
+
+  try {
+    const resp = await fetch(USERS_URL, { cache: 'no-store' });
+    if (!resp.ok) throw new Error('Не удалось загрузить базу учеников.');
+    const users = await resp.json();
+
+    const user = users[email];
+
+    if (currentTab === 'register') {
+      // РЕГИСТРАЦИЯ: пользователь должен быть добавлен после оплаты
+      if (!user) {
+        showMessage('error', 'Ваш email не найден в списке учеников. Проверьте, что он совпадает с email при оплате. Если проблема сохраняется — напишите нам в Telegram.');
+        return;
+      }
+      if (!user.paid) {
+        showMessage('error', 'Оплата по этому email ещё не подтверждена. Напишите нам в Telegram, если оплата уже прошла.');
+        return;
+      }
+      // Пароль задаёт сам ученик — сохраняется в localStorage
+      // (в реальной системе нужно сохранять на сервере)
+      const hash = await sha256(password);
+      localStorage.setItem('course_pwd_' + email, hash);
+      localStorage.setItem('course_user', JSON.stringify({ email, name: user.name, course: user.course, expires: user.expires }));
+      showMessage('success', 'Аккаунт готов. Переходим в кабинет...');
+      setTimeout(() => location.href = 'cabinet.html', 900);
+    } else {
+      // ВХОД
+      if (!user) {
+        showMessage('error', 'Email не найден. Возможно, вы не зарегистрировались или используете другой email.');
+        return;
+      }
+      if (!user.paid) {
+        showMessage('error', 'Оплата не подтверждена. Если вы уже оплатили — напишите нам в Telegram.');
+        return;
+      }
+      const savedHash = localStorage.getItem('course_pwd_' + email);
+      const enteredHash = await sha256(password);
+      if (!savedHash) {
+        showMessage('info', 'Похоже, вы ещё не создавали пароль. Перейдите на вкладку «Регистрация», чтобы задать его.');
+        return;
+      }
+      if (savedHash !== enteredHash) {
+        showMessage('error', 'Неверный пароль. Попробуйте снова.');
+        return;
+      }
+      localStorage.setItem('course_user', JSON.stringify({ email, name: user.name, course: user.course, expires: user.expires }));
+      showMessage('success', 'Вход выполнен. Открываем кабинет...');
+      setTimeout(() => location.href = 'cabinet.html', 700);
+    }
+  } catch (err) {
+    showMessage('error', 'Ошибка: ' + err.message);
+  } finally {
+    submitBtn.disabled = false;
+    submitBtn.textContent = currentTab === 'register' ? 'Создать пароль и войти' : 'Войти в кабинет';
+  }
+});
+</script>
+</body>
+</html>
